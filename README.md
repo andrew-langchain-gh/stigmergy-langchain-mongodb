@@ -1,5 +1,12 @@
 # Shared memory as a coordination mechanism
 
+![The swarm dashboard: eight agents, one shared document, and its revision history](swarm.jpg)
+
+*`uv run swarm dashboard` — a change-stream subscriber with no connection to any agent.
+**Left:** the eight agents, and every write as it lands. **Centre:** the focal document,
+now resolved. **Bottom:** its revision history, one row per write. Nothing in this
+picture routed anything to anybody.*
+
 Demo for a talk about agent memory. Eight agents work one production incident. They never
 call each other. All coordination happens through writes to a shared MongoDB blackboard,
 in two distinct styles:
