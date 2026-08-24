@@ -1,0 +1,49 @@
+[
+  {
+    "deploy_id": "dep-8813",
+    "timestamp": "13:52",
+    "service": "checkout-service",
+    "kind": "code",
+    "summary": "Add promo-code validation endpoint",
+    "author": "t.okafor",
+    "version": "checkout-service@2.14.0",
+    "changes": ["+ POST /v1/promo/validate"]
+  },
+  {
+    "deploy_id": "dep-8817",
+    "timestamp": "14:15",
+    "service": "cache-service",
+    "kind": "code",
+    "summary": "Bump redis client library 4.6.1 -> 4.7.0",
+    "author": "m.laurent",
+    "version": "cache-service@1.9.3",
+    "changes": ["dependency bump only, no config change"]
+  },
+  {
+    "deploy_id": "dep-8821",
+    "timestamp": "14:28",
+    "service": "checkout-service",
+    "kind": "config",
+    "summary": "Harden session handling and retune DB connection pool",
+    "author": "r.venkatesan",
+    "version": "checkout-service@2.14.0 (config revision 47)",
+    "ticket": "SEC-3391",
+    "changes": [
+      "db.pool.maxSize: 50 -> 10",
+      "db.pool.connectionTimeout: 30000ms (unchanged)",
+      "session.regenerateIdOnAuth: false -> true"
+    ],
+    "notes": "session.regenerateIdOnAuth fixes SEC-3391, a session-fixation vulnerability reported by the external pentest. db.pool.maxSize was reduced in the same push after a capacity review suggested the pool was oversized for observed traffic.",
+    "rollback_target": "config revision 46"
+  },
+  {
+    "deploy_id": "dep-8822",
+    "timestamp": "14:41",
+    "service": "search-service",
+    "kind": "feature-flag",
+    "summary": "Enable typeahead_v2 for 5% of traffic",
+    "author": "j.park",
+    "version": "search-service@3.2.1",
+    "changes": ["flag typeahead_v2: 0% -> 5%"]
+  }
+]

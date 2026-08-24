@@ -1,0 +1,42 @@
+[project]
+name = "mongodb-langchain-agent-memory-talk"
+version = "0.1.0"
+description = "Shared-memory agent coordination demo: stigmergic investigation and negotiation-by-editing on a MongoDB blackboard"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "langchain>=1.0,<2.0",
+    "langchain-core>=1.0,<2.0",
+    "langgraph>=1.0,<2.0",
+    "langchain-anthropic>=1.0",
+    "langchain-openai>=1.0",
+    "langgraph-checkpoint-mongodb>=0.2",
+    "pymongo>=4.13",
+    "langsmith>=0.3.0",
+    "pydantic>=2.9",
+    "python-dotenv>=1.0",
+    "rich>=13.9",
+    "typer>=0.15",
+    "langgraph-store-mongodb>=0.3.0",
+]
+
+[project.scripts]
+swarm = "swarm.cli:app"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+]
+
+[build-system]
+requires = ["uv_build>=0.9,<0.10"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "swarm"
+module-root = "src"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

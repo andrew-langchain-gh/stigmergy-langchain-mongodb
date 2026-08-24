@@ -1,0 +1,88 @@
+[
+  {
+    "ticket_id": "SUP-77201",
+    "timestamp": "14:35",
+    "channel": "web-form",
+    "customer_tier": "consumer",
+    "account": "acct-40112",
+    "subject": "Payment page just spins",
+    "body": "I filled in my card details and hit the button and the page has been spinning for about five minutes now. Nothing happens. I tried twice more and it did the same thing both times.",
+    "sentiment": "frustrated"
+  },
+  {
+    "ticket_id": "SUP-77204",
+    "timestamp": "14:36",
+    "channel": "chat",
+    "customer_tier": "consumer",
+    "account": "acct-51988",
+    "subject": "Cannot finish my order",
+    "body": "The little wheel just keeps turning when I try to pay. My basket still has everything in it but I cannot get past the last step.",
+    "sentiment": "frustrated"
+  },
+  {
+    "ticket_id": "SUP-77209",
+    "timestamp": "14:37",
+    "channel": "web-form",
+    "customer_tier": "consumer",
+    "account": "acct-33470",
+    "subject": "Is the site broken?",
+    "body": "Tried to buy something three times. Each time it sits there for ages and then tells me to try again later. Is something going on?",
+    "sentiment": "confused"
+  },
+  {
+    "ticket_id": "SUP-77215",
+    "timestamp": "14:39",
+    "channel": "email",
+    "customer_tier": "enterprise",
+    "account": "acct-00021",
+    "account_name": "Northwind Trading",
+    "subject": "Bulk order submission not going through",
+    "body": "Our procurement team has been unable to submit our scheduled weekly bulk order since about 2:35pm. The confirmation step never returns. This needs to be placed before end of day or it rolls into next week's cycle. Please advise urgently.",
+    "sentiment": "escalating",
+    "contract": {
+      "sla_tier": "platinum",
+      "notification_window_minutes": 30,
+      "notes": "Platinum contract requires customer notification within 30 minutes of a confirmed degradation affecting order submission."
+    }
+  },
+  {
+    "ticket_id": "SUP-77218",
+    "timestamp": "14:40",
+    "channel": "chat",
+    "customer_tier": "consumer",
+    "account": "acct-62244",
+    "subject": "Order button does nothing",
+    "body": "I press place order and it just hangs. Waited a really long time. Gave up and closed the tab.",
+    "sentiment": "resigned"
+  },
+  {
+    "ticket_id": "SUP-77223",
+    "timestamp": "14:42",
+    "channel": "twitter",
+    "customer_tier": "consumer",
+    "account": null,
+    "subject": "public complaint",
+    "body": "anyone else unable to buy anything on here right now? been stuck on the paying screen for ten minutes",
+    "sentiment": "negative"
+  },
+  {
+    "ticket_id": "SUP-77190",
+    "timestamp": "14:11",
+    "channel": "web-form",
+    "customer_tier": "consumer",
+    "account": "acct-71830",
+    "subject": "How do I change my delivery address?",
+    "body": "I need to update the address on an order I placed yesterday. Where do I do that?",
+    "sentiment": "neutral"
+  },
+  {
+    "ticket_id": "SUP-77196",
+    "timestamp": "14:22",
+    "channel": "email",
+    "customer_tier": "consumer",
+    "account": "acct-29005",
+    "subject": "Compliment for the team",
+    "body": "Just wanted to say the new dark mode looks fantastic on mobile. Much easier on the eyes at night.",
+    "sentiment": "positive"
+  }
+]

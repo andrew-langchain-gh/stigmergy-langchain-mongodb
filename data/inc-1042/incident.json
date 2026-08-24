@@ -1,0 +1,11 @@
+{
+  "incident_id": "INC-1042",
+  "status": "open",
+  "triggered_at": "14:32:07",
+  "trigger": "checkout-service error rate exceeded 5% threshold",
+  "scope": {
+    "service": "checkout-service",
+    "window": ["14:25", "14:40"]
+  },
+  "posted_by": "threshold-monitor"
+}

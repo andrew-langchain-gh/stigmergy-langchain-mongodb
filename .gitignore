@@ -1,0 +1,32 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Secrets
+.env
+!.env.example
+
+# Demo runtime state
+.swarm/
+
+# OS / editor cruft
+.DS_Store
+.idea/
+
+# Additional secret shapes
+*.pem
+*.key
+*.crt
+credentials.json
+token.json
+
+# Talk materials — kept out of this repo for now
+docs/
+agent-memory-talk-design-brief.md
