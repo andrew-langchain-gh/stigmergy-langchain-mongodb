@@ -90,13 +90,24 @@ CLIP_PROFILES = [
 ]
 
 
-def _compact(doc: dict, profile: tuple[int, int, int, int] = CLIP_PROFILES[1]) -> dict:
+def _compact(
+    doc: dict,
+    profile: tuple[int, int, int, int] = CLIP_PROFILES[1],
+    *,
+    detail: bool = False,
+) -> dict:
     """A curated view, not a filtered one.
 
     The raw document runs past 70 lines, so on any projector the objections and
     constraints — the whole payload of phase 2 — fall below the fold. This keeps what
     carries the story and drops opaque ids, timestamps and denormalised counters. Prose
     is clipped because the presenter narrates it; `swarm show` prints the real thing.
+
+    `detail` adds back the fields that actually change from one write to the next — the
+    observation ids accruing, the open-question counter, who touched it last. Without
+    them phase 1 reads as a fixed statement above a single counter, which is the
+    opposite of watching a document evolve. They cost a few rows, so the caller drops
+    them only when the panel is too short to afford them.
     """
     stmt_n, action_n, obj_n, cons_n = profile
     out: dict = {"statement": _clip(doc.get("statement", ""), stmt_n)}
@@ -110,7 +121,14 @@ def _compact(doc: dict, profile: tuple[int, int, int, int] = CLIP_PROFILES[1]) -
     # string, so they get flattened. It is still a JSON document, just a legible one.
     covered = doc.get("evidence_types_covered", [])
     out["evidence_types_covered"] = f"{len(covered)} — {', '.join(covered)}"
-    if doc.get("open_question_count"):
+    if detail:
+        obs = doc.get("supporting_observations", [])
+        out["supporting_observations"] = f"{len(obs)} — {', '.join(obs)}" if obs else "0"
+        contra = doc.get("contradicting_observations", [])
+        if contra:
+            out["contradicting_observations"] = f"{len(contra)} — {', '.join(contra)}"
+        out["open_question_count"] = doc.get("open_question_count", 0)
+    elif doc.get("open_question_count"):
         out["open_questions_blocking"] = doc["open_question_count"]
 
     options = []
@@ -147,6 +165,8 @@ def _compact(doc: dict, profile: tuple[int, int, int, int] = CLIP_PROFILES[1]) -
     for key in ("promoted_by", "selected_by"):
         if doc.get(key):
             out[key] = doc[key]
+    if detail and doc.get("last_touched_by"):
+        out["last_touched_by"] = doc["last_touched_by"]
     return out
 
 
@@ -195,6 +215,10 @@ def _document_panel(
     A Layout crops whatever overflows, and what overflows is the bottom of the document —
     the objections, the constraints, the resolution. Exactly the payoff. So rather than
     hoping the terminal is tall enough, measure and clip until it fits.
+
+    The ladder starts at the *real* document. Through phase 1 it is only 25-37 lines and
+    usually fits, so the audience watches the actual record change rather than a summary
+    of it. Phase 2 pushes it past 200 lines, and from there the curated views take over.
     """
     if not doc:
         body: Group | Syntax = Group(
@@ -226,11 +250,15 @@ def _document_panel(
             word_wrap=True,
         )
 
-    chosen = render(_compact(doc, CLIP_PROFILES[0]))
+    chosen = render(_compact(doc, CLIP_PROFILES[0], detail=True))
     if rows > 0 and width > 0:
         # A Panel costs 2 columns of border plus 2 of padding, and 2 rows of border.
         inner_width = max(width - 4, 20)
-        candidates = [_compact(doc, p) for p in CLIP_PROFILES] + [_terse(doc)]
+        candidates = (
+            [doc]
+            + [_compact(doc, p, detail=i < 3) for i, p in enumerate(CLIP_PROFILES)]
+            + [_terse(doc)]
+        )
         for payload in candidates:
             candidate = render(payload)
             if _rendered_rows(candidate, inner_width) + 2 <= rows:
