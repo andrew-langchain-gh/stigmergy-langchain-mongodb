@@ -54,7 +54,35 @@ uv run swarm run              # 2 — supervises 8 agent processes + the watchdo
 uv run swarm trigger          # 3 — one insert; the only thing that starts anything
 ```
 
-Presenter controls, from terminal 3:
+### Running it unattended
+
+`swarm loop` works the same incident over and over — resolve, hold, reset, re-trigger — for
+leaving the demo running on a second screen while you present. It supervises the agents
+itself and re-triggers after each resolution, so it replaces terminals 2 and 3:
+
+```bash
+uv run swarm dashboard        # 1 — the audience-facing view
+uv run swarm loop             # 2 — incidents back to back until Ctrl-C
+```
+
+| Flag | Default | Does |
+|---|---|---|
+| `--cycles` | `0` | How many incidents to work. `0` runs until Ctrl-C |
+| `--dwell` | `20` | Seconds to leave the resolved document on screen before recycling |
+| `--timeout` | `300` | Give up on a stuck run after N seconds and recycle |
+| `--quiet` | off | Silence agent output; print only one line per cycle |
+| `--no-with-watchdog` | — | Drop the exogenous timeout watchdog |
+
+The agents are started once and stay up across cycles. Each new trigger carries a new run
+number, and every agent resets its own budget, convergence state and LangGraph thread when
+it sees one. Between cycles the step gate is closed, so every agent parks before its next
+turn and nothing can be mid-write while the board is wiped and re-triggered.
+
+Each cycle prints one line — run number, resolved or timed out, duration, and the shape of
+the result — flagging any run the watchdog had to force, or that split across competing
+hypotheses. If an agent process dies the loop stops rather than cycling into a broken state.
+
+Presenter controls, from a spare terminal:
 
 ```bash
 uv run swarm status           # swarm state, read straight out of MongoDB
